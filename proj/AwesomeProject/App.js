@@ -8,7 +8,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, TextInput} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -47,7 +47,12 @@ export default class App extends Component<Props> {
         {/*<Blink   text = '恭喜你发财！恭喜你精彩！'/>*/}
 
         {/*<Text   onPress={this.pressText} style={ {backgroundColor:'bleue'} }>{this.state.normalText} </Text>*/}
-
+        {/*<TextInput style={{height: 30,borderColor:'gray',borderwidth:2}} onChangeText={(text) => this.setState(pressText) } value = {this.state.pressText}></TextInput>*/}
+        <TextInput
+            style={{height: 40, borderColor: 'gray', borderWidth: 3}}
+            onChangeText={(text) => this.setState({pressText})}
+            value={this.state.pressText}
+        />
       </View>
 
 
@@ -81,6 +86,13 @@ const styles = StyleSheet.create({
     color:'#ff8c00',
     fontWeight: 'bold',
     fontSize: 30,
+  },
+  baseText:{
+    fontFamily:'Cochin',
+  },
+  titleText:{
+    fontSize:20,
+    fontWeight: 'bold'
   }
 });
 
