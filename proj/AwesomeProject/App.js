@@ -36,17 +36,17 @@ export default class App extends Component<Props> {
       <View style={styles.container}>
         <Text  style = {styles.welcome}>Today so happy!</Text>
 
-        <Image source={pic} style={styles.picStyle} />
+        {/*<Image source={pic} style={styles.picStyle} />*/}
 
-        <Greeting name = 'Yes, U can!' />
+        {/*<Greeting name = 'Yes, U can!' />*/}
 
-        <Greeting name = 'React-Native Oh My God!' />
+        {/*<Greeting name = 'React-Native Oh My God!' />*/}
 
-        {/*<Blink style = {styles.bigBlue} text = '恭喜你发财！恭喜你精彩！'/>*/}
+        {/*/!*<Blink style = {styles.bigBlue} text = '恭喜你发财！恭喜你精彩！'/>*!/*/}
 
-        <Blink   text = '恭喜你发财！恭喜你精彩！'/>
+        {/*<Blink   text = '恭喜你发财！恭喜你精彩！'/>*/}
 
-        <Text   onPress={this.pressText} style={ {backgroundColor:'blue'} }>{this.state.normalText} </Text>
+        {/*<Text   onPress={this.pressText} style={ {backgroundColor:'bleue'} }>{this.state.normalText} </Text>*/}
 
       </View>
 
