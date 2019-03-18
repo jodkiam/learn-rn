@@ -8,7 +8,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, TextInput} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, TextInput, Button, Alert, FlatList, SectionList, ActivityIndicator} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -23,38 +23,78 @@ export default class App extends Component<Props> {
     constructor(props){
        super(props);
        this.state = {
-         normalText :'oh my dog!',
-         pressText : 'on my cat',
-       };
+           title:"null",
+           isLoading:true,
+           dataSource:{},
+       }
+
     }
+
   render() {
-    let pic = {
-      uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
-    };
 
+        //数据获取
+    fetch('https://www.apiopen.top/satinGodApi?type=1&page=1',{
+        method: 'GET',
+        headers:{
+            Accept:'applicaiton/json',
+            'Content-Type':'applicaiton/json',
+        }
+
+    }).then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading:false,
+                dataSource:responseJson.data,
+            },function () {
+
+            })
+            return responseJson
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+
+
+      if(this.state.isLoading)
+      {
+          return (
+              <View style = {{flex: 1,paddingTop:20}}>
+                 <ActivityIndicator/>
+              </View>
+          );
+      }
     return (
-      <View style={styles.container}>
-        <Text  style = {styles.welcome}>Today so happy!</Text>
 
-        {/*<Image source={pic} style={styles.picStyle} />*/}
 
-        {/*<Greeting name = 'Yes, U can!' />*/}
+           <View style = {{flex: 1,paddingTop:20}}>
+              <FlatList
+                  data = {this.state.dataSource}
+                  renderItem = {({item}) =><Text>{item.text}</Text>}
+                  // keyExtractor = {(item, index) => index}
+              />
+          </View>
 
-        {/*<Greeting name = 'React-Native Oh My God!' />*/}
+        {/*<View style = {styles.container}>*/}
+            {/*/!*<FlatList*!/*/}
+                {/*/!*data = {[*!/*/}
+                    {/*/!*{keys:'啊啊'},*!/*/}
+                    {/*/!*{keys:'有谁能够了解'},*!/*/}
+                    {/*/!*{keys:' d'},*!/*/}
+                {/*/!*]}*!/*/}
+                {/*/!*renderItem = {({item}) => <Text style={styles.item}>{item.keys}</Text>}*!/*/}
+            {/*/!*/>*!/*/}
+            {/*<SectionList*/}
+                {/*sections={ [*/}
+                    {/*{title:'D', data:['hellow']},*/}
+                    {/*{title:'A', data:['jackson','kim','jimys']}*/}
+                {/*]}*/}
+                {/*renderItem = {({item}) => <Text style = {styles.item}>{item}</Text>}*/}
+                {/*renderSectionHeader = {({section}) => <Text style = {styles.secionHeader}>{section.title}</Text>}*/}
+                {/*keyExtractor = {(item, index) => index}*/}
+            {/*/>*/}
 
-        {/*/!*<Blink style = {styles.bigBlue} text = '恭喜你发财！恭喜你精彩！'/>*!/*/}
-
-        {/*<Blink   text = '恭喜你发财！恭喜你精彩！'/>*/}
-
-        {/*<Text   onPress={this.pressText} style={ {backgroundColor:'bleue'} }>{this.state.normalText} </Text>*/}
-        {/*<TextInput style={{height: 30,borderColor:'gray',borderwidth:2}} onChangeText={(text) => this.setState(pressText) } value = {this.state.pressText}></TextInput>*/}
-        <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 3}}
-            onChangeText={(text) => this.setState({pressText})}
-            value={this.state.pressText}
-        />
-      </View>
-
+        {/*</View>*/}
 
 
     );
@@ -63,10 +103,12 @@ export default class App extends Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'yellow',
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: 'yellow',
+      flex: 1,
+      paddingTop:22
   },
   welcome: {
     fontSize: 20,
@@ -93,56 +135,20 @@ const styles = StyleSheet.create({
   titleText:{
     fontSize:20,
     fontWeight: 'bold'
-  }
+  },
+  item:{
+         padding:10,
+        fontSize:20,
+        height: 44,
+        color:"white"
+        },
+  secionHeader:{
+            paddingTop:2,
+            paddingLeft:10,
+            paddingRight:10,
+            paddingBottom:2,
+            fontSize:18,
+            fontWeight:'bold',
+            backgroundColor:'yellow',
+        },
 });
-
-class Blink extends Component{
-    constructor(props) {
-      super(props);
-      this.state = {
-        isShowingText: true,
-
-      } //js对象
-
-
-      //
-      // setInterval(() => {
-      //    this.setState(previousState => {
-      //      return {isShowingText: !previousState.isShowingText}
-      //    });}
-      // ,1000};
-
-      // 每1000毫秒对showText状态做一次取反操作
-      setInterval(() => {
-        this.setState(previousState => {
-          return {isShowingText: !previousState.isShowingText};
-        });
-      }, 1000);
-
-    }
-      render(){
-         //根据状态是否返回
-        if (this.state.isShowingText) {
-          return (
-              <Text style = {{color:'red'}} >{this.props.text}</Text>
-          );
-        } else {
-          return null;
-        }
-
-      };
-
-
-}
-
-
-class Greeting extends Component{
-    render() {
-      return (
-          <View style = {{alignItems: 'center'}}>
-            <Text  >Hello {this.props.name}</Text>
-          </View>
-      );
-    }
-
-}
